@@ -1,0 +1,14 @@
+{
+  "name": "check-connections",
+  "version": "1.0.0",
+  "description": "Vérification de connectivité aux APIs IA",
+  "main": "check-connections.js",
+  "scripts": {
+    "start": "node check-connections.js",
+    "verbose": "node check-connections.js --verbose",
+    "cost": "node cost-calculator.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}
