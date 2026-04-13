@@ -1,6 +1,6 @@
 # check-connections
 
-Vérifie la connectivité aux APIs IA (Mistral, Groq, HuggingFace, Pinecone) et explore les providers en profondeur.
+Projet Node.js qui vérifie la connectivité aux APIs IA (Mistral, Groq, HuggingFace, Pinecone) et explore les providers en profondeur à travers 14 phases.
 
 ## Installation
 
@@ -23,51 +23,80 @@ HF_API_KEY=...
 PINECONE_API_KEY=...
 ```
 
+## Providers
+
+| Provider    | Modèle                           | Type       |
+|-------------|----------------------------------|------------|
+| Mistral     | mistral-small-latest             | Propriétaire (FR) |
+| Groq        | llama-3.3-70b-versatile          | Meta Llama sur LPU |
+| HuggingFace | meta-llama/Llama-3.1-8B-Instruct | Open source sur GPU |
+| Pinecone    | —                                | Vector database |
+
 ## Scripts
 
 | Commande | Phase | Description |
 |---|---|---|
-| `npm start` | 1-5 | Vérification des 4 connexions |
-| `npm run verbose` | 5 | Idem + réponses des modèles + liste modèles Mistral |
-| `npm run cost` | 6 | Calculatrice de coûts comparatifs |
-| `npm run lab` | 7 | 3 providers × 3 températures, 9 réponses en parallèle |
-| `npm run compare` | 8 | 5 tâches × 3 providers, tableau markdown |
-| `npm run server` | 9 | Serveur Express sur port 3000 |
-| `npm run same-model` | 10 | Llama 3.1 8B : Groq (LPU) vs HuggingFace (GPU) |
-| `npm run stress` | 11 | Stress test 5/10 requêtes parallèles, mesure p95 |
-| `npm run sensitivity` | 12 | 5 formulations du même prompt, compare les réponses |
-| `npm run multilang` | 13 | FR / EN / ES — compare tokens et coûts |
-| `npm run dashboard` | 14 | Génère `results.html` avec tous les résultats |
+| `node check-connections.js` | 1-5 | Vérifie les 4 connexions |
+| `node check-connections.js --verbose` | 5 | Idem + réponses des modèles + liste modèles Mistral |
+| `node cost-calculator.js` | 6 | Calculatrice de coûts comparatifs |
+| `node prompt-lab.js` | 7 | 3 providers x 3 températures → 9 réponses en parallèle |
+| `node comparateur.js` | 8 | 5 tâches x 3 providers, tableau markdown |
+| `node server.js` | 9 | Serveur Express sur port 3000 |
+| `node same-model.js` | 10 | Llama 3.1 8B : Groq (LPU) vs HuggingFace (GPU) |
+| `node stress-test.js` | 11 | Stress test 5/10 requêtes parallèles, mesure p95 |
+| `node prompt-sensitivity.js` | 12 | 5 formulations du même prompt, compare les réponses |
+| `node multi-langue.js` | 13 | FR / EN / ES — compare tokens et coûts |
+| `node dashboard.js` | 14 | Génère `results.html` avec tous les résultats |
+| `node my-prompt.js` | — | Envoie ton propre prompt aux 3 providers |
 
 ## Serveur Express (Phase 9)
 
 ```bash
-npm run server
-
-# Tester avec curl :
-curl http://localhost:3000/check
-curl "http://localhost:3000/ask?q=Bonjour&provider=mistral"
-curl "http://localhost:3000/ask?q=Bonjour&provider=groq"
-curl "http://localhost:3000/cost?text=Bonjour%20monde"
+node server.js
 ```
 
-## Exemple de sortie (npm start)
+Routes disponibles :
 
 ```
-✅ Mistral       406ms
-✅ Groq          165ms
-✅ HuggingFace   354ms
-✅ Pinecone      237ms
+GET http://localhost:3000/check
+GET http://localhost:3000/ask?q=Bonjour&provider=mistral
+GET http://localhost:3000/ask?q=Bonjour&provider=groq
+GET http://localhost:3000/cost?text=Bonjour%20monde
+```
+
+## Dashboard (Phase 14)
+
+```bash
+node dashboard.js
+```
+
+Génère un fichier `results.html` avec 4 tableaux :
+- Statut et latence des 4 connexions
+- Comparateur de réponses (5 types de tâches x 3 providers)
+- Analyse multi-langue FR/EN/ES (tokens + coûts)
+- Estimation des coûts par provider
+
+Ouvre ensuite `results.html` directement dans ton navigateur.
+
+## Prompt personnalisé
+
+Modifie `my-prompt.js` pour tester ta propre question sur les 3 providers :
+
+```js
+const monPrompt = "Ta question ici";
+```
+
+```bash
+node my-prompt.js
+```
+
+## Exemple de sortie (node check-connections.js)
+
+```
+✅ Mistral       404ms
+✅ Groq          133ms
+✅ HuggingFace   379ms
+✅ Pinecone      859ms
 
 4/4 connexions actives
-Tout est vert. Vous êtes prêts pour la suite !
 ```
-
-## Providers
-
-| Provider    | Endpoint                                              | Modèle                        |
-|-------------|-------------------------------------------------------|-------------------------------|
-| Mistral     | api.mistral.ai/v1/chat/completions                    | mistral-small-latest          |
-| Groq        | api.groq.com/openai/v1/chat/completions               | llama-3.1-8b-instant          |
-| HuggingFace | router.huggingface.co/v1/chat/completions             | meta-llama/Llama-3.1-8B-Instruct |
-| Pinecone    | api.pinecone.io/indexes                               | —                             |
