@@ -2,7 +2,7 @@ require('dotenv').config();
 const fs = require('fs');
 const { PROVIDERS, checkProvider, checkPinecone, callProvider, estimateTokens, estimateCostData } = require('./lib');
 
-// ─── Couleurs selon statut / latence ───────────────────────────────────────
+// Couleurs selon statut / latence 
 function latencyColor(ms) {
   if (!ms) return '#e74c3c';
   if (ms < 500)  return '#2ecc71';
@@ -14,7 +14,7 @@ function statusColor(s) {
   return s === 'OK' ? '#2ecc71' : '#e74c3c';
 }
 
-// ─── Collecte des données ──────────────────────────────────────────────────
+//  Collecte des données 
 async function collectData() {
   console.log('Collecte des données...');
 
@@ -61,7 +61,7 @@ async function collectData() {
   return { connections, comparateur, multiLangue, costs, PROMPTS, sampleText };
 }
 
-// ─── Génération HTML ───────────────────────────────────────────────────────
+// Génération HTML 
 function generateHTML({ connections, comparateur, multiLangue, costs, PROMPTS, sampleText }) {
   const now = new Date().toLocaleString('fr-FR');
 
@@ -152,7 +152,7 @@ function generateHTML({ connections, comparateur, multiLangue, costs, PROMPTS, s
 </html>`;
 }
 
-// ─── Main ──────────────────────────────────────────────────────────────────
+// Main 
 async function main() {
   console.log('\n📊 Génération du dashboard...\n');
   const data = await collectData();
