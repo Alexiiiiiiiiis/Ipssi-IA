@@ -1,7 +1,5 @@
 require('dotenv').config();
 
-// ─── Phase 1 : Vérification des clés ───────────────────────────────────────
-
 const keys = {
   MISTRAL_API_KEY: process.env.MISTRAL_API_KEY,
   GROQ_API_KEY: process.env.GROQ_API_KEY,
@@ -12,8 +10,6 @@ const keys = {
 for (const [name, value] of Object.entries(keys)) {
   console.log(`${name}: ${value ? 'présente' : 'MANQUANTE'}`);
 }
-
-// ─── Phase 3 : Fonction générique checkProvider (DRY) ──────────────────────
 
 /**
  * @typedef {{ name: string, url: string, key: string, model: string, format: 'openai'|'huggingface' }} ProviderConfig
@@ -73,7 +69,6 @@ async function checkProvider(config, verbose = false) {
   }
 }
 
-// ─── Phase 5 : checkPinecone ───────────────────────────────────────────────
 
 async function checkPinecone() {
   const key = process.env.PINECONE_API_KEY;
@@ -104,7 +99,6 @@ async function checkPinecone() {
   }
 }
 
-// ─── Phase 5 : listMistralModels ──────────────────────────────────────────
 
 async function listMistralModels() {
   const key = process.env.MISTRAL_API_KEY;
@@ -130,7 +124,6 @@ async function listMistralModels() {
   }
 }
 
-// ─── Phase 4 : displayResult ──────────────────────────────────────────────
 
 function displayResult(result, verbose = false) {
   const icon = result.status === 'OK' ? '✅' : '❌';
@@ -149,7 +142,6 @@ function displayResult(result, verbose = false) {
   console.log(line);
 }
 
-// ─── Main ──────────────────────────────────────────────────────────────────
 
 async function main() {
   const verbose = process.argv.includes('--verbose');
