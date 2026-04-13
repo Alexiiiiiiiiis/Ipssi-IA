@@ -4,11 +4,20 @@
   "description": "Vérification de connectivité aux APIs IA",
   "main": "check-connections.js",
   "scripts": {
-    "start": "node check-connections.js",
-    "verbose": "node check-connections.js --verbose",
-    "cost": "node cost-calculator.js"
+    "start":       "node check-connections.js",
+    "verbose":     "node check-connections.js --verbose",
+    "cost":        "node cost-calculator.js",
+    "lab":         "node prompt-lab.js",
+    "compare":     "node comparateur.js",
+    "server":      "node server.js",
+    "same-model":  "node same-model.js",
+    "stress":      "node stress-test.js",
+    "sensitivity": "node prompt-sensitivity.js",
+    "multilang":   "node multi-langue.js",
+    "dashboard":   "node dashboard.js"
   },
   "dependencies": {
-    "dotenv": "^16.4.5"
+    "dotenv": "^16.4.5",
+    "express": "^5.2.1"
   }
 }

@@ -1,4 +1,4 @@
-// ─── Phase 6 : Cost Calculator ────────────────────────────────────────────
+
 
 const PROVIDERS = [
   { label: 'Mistral Small', pricePerMillion: 0.20 },
@@ -50,7 +50,7 @@ function estimateCost(text, label) {
   console.log('');
 }
 
-// ─── Exemple d'utilisation ────────────────────────────────────────────────
+// Exemple d'utilisation 
 
 const sampleText =
   'Bonjour, je suis un étudiant en IA et je veux tester les coûts des différentes APIs.';
